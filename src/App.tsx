@@ -109,6 +109,7 @@ export default function App() {
   const videoRef = useRef<HTMLVideoElement>(null);
   const pCanvasRef = useRef<HTMLCanvasElement>(null);
   const hCanvasRef = useRef<HTMLCanvasElement>(null);
+  const matrixRef = useRef<HTMLCanvasElement>(null);
   const frameRef = useRef<HTMLDivElement>(null);
   
   const particlesRef = useRef<Particle[]>([]);
@@ -369,6 +370,43 @@ export default function App() {
     }
   };
 
+  // Matrix effect
+  useEffect(() => {
+    if (!started) return;
+    const canvas = matrixRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789★'.split('');
+    const fontSize = 16;
+    const columns = canvas.width / fontSize;
+    const drops: number[] = [];
+    for (let x = 0; x < columns; x++) {
+      drops[x] = 1;
+    }
+
+    const draw = () => {
+      ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = 'rgba(255, 0, 100, 0.3)';
+      ctx.font = fontSize + 'px monospace';
+      for (let i = 0; i < drops.length; i++) {
+        const text = letters[Math.floor(Math.random() * letters.length)];
+        ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+        if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+          drops[i] = 0;
+        }
+        drops[i]++;
+      }
+    };
+    const interval = setInterval(draw, 50);
+    return () => clearInterval(interval);
+  }, [started]);
+
   const handleStart = () => {
     setStarted(true);
     setTimeout(() => {
@@ -388,6 +426,9 @@ export default function App() {
   return (
     <div className="relative w-screen h-screen bg-black overflow-hidden font-sans flex items-center justify-center">
       
+      {/* Matrix background */}
+      {started && <canvas ref={matrixRef} className="matrix absolute inset-0 w-full h-full z-0 pointer-events-none"></canvas>}
+
       {/* START SCREEN */}
       {!started && (
         <div className="absolute inset-0 z-50 bg-gradient-to-br from-[#0d0118] via-[#1a0a2e] to-[#0d0118] flex flex-col items-center justify-center gap-7 p-8 text-center transition-opacity duration-[600ms]">
