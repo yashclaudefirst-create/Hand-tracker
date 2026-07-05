@@ -375,7 +375,7 @@ export default function App() {
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
 
-    const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789♥'.split('');
+    const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789★'.split('');
     const fontSize = 16;
     const columns = canvas.width / fontSize;
     const drops: number[] = [];
@@ -468,8 +468,8 @@ export default function App() {
         </div>
         <div className="tabs-panels commands" style={{ display: 'none' }}></div>
         <div id="dashboard" style={{ position: 'absolute', width: '100%', height: '100%', zIndex: 8888, display: 'none' }}></div>
-        <h1 style={{ fontFamily: "'Comic Sans MS', cursive, sans-serif", fontSize: '2.5rem', background: 'linear-gradient(to right, #ff0064, #6503ff)', WebkitBackgroundClip: 'text', color: 'transparent', marginTop: '30vh', filter: 'drop-shadow(0 0 10px rgba(255,0,100,0.5))' }}>
-          I Love You Sayang
+        <h1 style={{ fontFamily: "'Comic Sans MS', cursive, sans-serif", fontSize: '2.5rem', background: 'linear-gradient(to right, #ff0064, #6503ff)', WebkitBackgroundClip: 'text', color: 'transparent', marginTop: '30vh', filter: 'drop-shadow(0 0 10px rgba(255,0,100,0.5))', textAlign: 'center', lineHeight: '1.2' }}>
+          Happy Birthday Bestie!
         </h1>
       </div>
 
