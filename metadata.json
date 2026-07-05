@@ -1,0 +1,8 @@
+{
+  "name": "Birthday Camera",
+  "description": "A birthday website with a live camera feed.",
+  "requestFramePermissions": [
+    "camera"
+  ],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

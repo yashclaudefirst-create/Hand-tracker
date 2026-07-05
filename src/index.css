@@ -1,0 +1,79 @@
+@import "tailwindcss";
+
+body {
+  background: #000;
+  overflow: hidden;
+}
+
+/* ── CAMERA ── */
+.mirrored-video {
+  transform: scaleX(-1);
+}
+
+/* Finger count pill */
+.finger-pill {
+  background: rgba(255,255,255,.08);
+  border: 1px solid rgba(255,180,220,.3);
+  backdrop-filter: blur(10px);
+  transition: all .3s ease;
+}
+.finger-pill.active {
+  background: rgba(255,100,180,.2);
+  border-color: rgba(255,100,180,.6);
+  color: #fff;
+  box-shadow: 0 0 24px rgba(255,100,180,.4);
+}
+
+/* Big number display */
+.big-number {
+  color: transparent;
+  background: linear-gradient(135deg, #ff9ff3, #ffeaa7, #a29bfe, #fd79a8);
+  -webkit-background-clip: text;
+  background-clip: text;
+  filter: drop-shadow(0 0 40px rgba(255,100,200,.5));
+  opacity: 0;
+  transform: scale(.7);
+  transition: opacity .4s cubic-bezier(.34,1.56,.64,1), transform .4s cubic-bezier(.34,1.56,.64,1);
+}
+.big-number.show {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* start screen title */
+.start-title span {
+  background: linear-gradient(to right, #ff9ff3, #fd79a8, #ffeaa7);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.start-btn {
+  background: linear-gradient(135deg, #fd79a8, #a29bfe);
+  box-shadow: 0 8px 32px rgba(253,121,168,.4);
+  transition: transform .2s, box-shadow .2s;
+}
+.start-btn:active {
+  transform: scale(.96);
+}
+
+/* confetti */
+.confetti-piece {
+  position: fixed;
+  pointer-events: none;
+  z-index: 100;
+  border-radius: 2px;
+  animation: cfall var(--d) var(--delay) ease-out forwards;
+}
+@keyframes cfall {
+  0% { transform: translateY(-10px) rotate(0deg); opacity: 1; }
+  100% { transform: translateY(110vh) rotate(540deg); opacity: 0; }
+}
+
+.spinner {
+  border-top-color: rgba(255, 120, 180, .8);
+  animation: spin .8s linear infinite;
+}
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
