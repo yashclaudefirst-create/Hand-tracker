@@ -81,6 +81,9 @@ const DIGIT_DOTS: Record<number, number[][]> = {
       [1,3],[2,3],[3,3],
       [4,4],[4,5],[4,6],
       [0,6],[1,6],[2,6],[3,6]],
+  4: [[0,0],[0,1],[0,2],[0,3],
+      [1,3],[2,3],[3,3],[4,3],
+      [4,0],[4,1],[4,2],[4,3],[4,4],[4,5],[4,6]],
   5: [[0,0],[1,0],[2,0],[3,0],[4,0],
       [0,1],[0,2],
       [1,2],[2,2],[3,2],[4,2],
@@ -92,6 +95,7 @@ const COLORS: Record<number, string[]> = {
   1: ['#ff9ff3','#ffeaa7','#fd79a8'],
   2: ['#a29bfe','#74b9ff','#00cec9'],
   3: ['#55efc4','#00b894','#ffeaa7'],
+  4: ['#74b9ff','#a29bfe','#55efc4'],
   5: ['#fd79a8','#fdcb6e','#e17055','#d63031'],
 };
 
@@ -223,7 +227,7 @@ export default function App() {
       return;
     }
     
-    if ([1,2,3,5].includes(n)) {
+    if ([1,2,3,4,5].includes(n)) {
       buildParticles(n);
       if (n === 5) fireConfetti();
     }
@@ -365,42 +369,6 @@ export default function App() {
     }
   };
 
-  // Matrix effect
-  useEffect(() => {
-    const canvas = document.querySelector('.matrix') as HTMLCanvasElement;
-    if (!canvas) return;
-    const ctx = canvas.getContext('2d');
-    if (!ctx) return;
-
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-
-    const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789★'.split('');
-    const fontSize = 16;
-    const columns = canvas.width / fontSize;
-    const drops: number[] = [];
-    for (let x = 0; x < columns; x++) {
-      drops[x] = 1;
-    }
-
-    const draw = () => {
-      ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
-      ctx.fillStyle = 'rgba(255, 0, 100, 0.3)';
-      ctx.font = fontSize + 'px monospace';
-      for (let i = 0; i < drops.length; i++) {
-        const text = letters[Math.floor(Math.random() * letters.length)];
-        ctx.fillText(text, i * fontSize, drops[i] * fontSize);
-        if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
-          drops[i] = 0;
-        }
-        drops[i]++;
-      }
-    };
-    const interval = setInterval(draw, 50);
-    return () => clearInterval(interval);
-  }, []);
-
   const handleStart = () => {
     setStarted(true);
     setTimeout(() => {
@@ -449,29 +417,13 @@ export default function App() {
       )}
 
       {/* CAMERA */}
-      <video ref={videoRef} playsInline autoPlay muted className="mirrored-video absolute inset-0 w-full h-full object-cover z-10 opacity-0"></video>
+      <video ref={videoRef} playsInline autoPlay muted className="mirrored-video absolute inset-0 w-full h-full object-cover z-10 opacity-40"></video>
 
       {/* Canvas for particles */}
       <canvas ref={pCanvasRef} className="absolute inset-0 w-full h-full z-30 pointer-events-none"></canvas>
 
       {/* Canvas for hand landmarks */}
       <canvas ref={hCanvasRef} className="absolute inset-0 w-full h-full z-40 pointer-events-none -scale-x-100"></canvas>
-
-      {/* Embedded Elements from Image */}
-      <canvas className="matrix" style={{ position: 'absolute', width: '100%', height: '100%', zIndex: 8888, pointerEvents: 'none' }}></canvas>
-      <div id="tabs" className="tabs canvas" style={{ position: 'absolute', width: '100%', height: '100%', zIndex: 9999, pointerEvents: 'none', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
-        <div className="tabs-labels" style={{ display: 'none' }}>
-          <span className="tabs-label">Share:</span>
-        </div>
-        <div className="tabs-panels commands" style={{ display: 'none' }}>
-          <div className="tabs-panel commands"></div>
-        </div>
-        <div className="tabs-panels commands" style={{ display: 'none' }}></div>
-        <div id="dashboard" style={{ position: 'absolute', width: '100%', height: '100%', zIndex: 8888, display: 'none' }}></div>
-        <h1 style={{ fontFamily: "'Comic Sans MS', cursive, sans-serif", fontSize: '2.5rem', background: 'linear-gradient(to right, #ff0064, #6503ff)', WebkitBackgroundClip: 'text', color: 'transparent', marginTop: '30vh', filter: 'drop-shadow(0 0 10px rgba(255,0,100,0.5))', textAlign: 'center', lineHeight: '1.2' }}>
-          Happy Birthday Bestie!
-        </h1>
-      </div>
 
       {/* UI */}
       <div className="absolute inset-0 z-50 flex flex-col items-center justify-between pointer-events-none py-5 px-4 pb-8">
@@ -511,6 +463,10 @@ export default function App() {
             <div className="flex flex-col items-center gap-1 bg-white/5 border border-white/10 rounded-xl px-3.5 py-2.5 backdrop-blur-md">
               <div className="text-[22px]">🤟</div>
               <div className="text-[10px] text-white/50 tracking-[0.08em]">3</div>
+            </div>
+            <div className="flex flex-col items-center gap-1 bg-white/5 border border-white/10 rounded-xl px-3.5 py-2.5 backdrop-blur-md">
+              <div className="text-[22px]">🖖</div>
+              <div className="text-[10px] text-white/50 tracking-[0.08em]">4</div>
             </div>
             <div className="flex flex-col items-center gap-1 bg-white/5 border border-white/10 rounded-xl px-3.5 py-2.5 backdrop-blur-md">
               <div className="text-[22px]">🖐️</div>
